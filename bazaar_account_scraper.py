@@ -4,6 +4,9 @@ import csv
 from concurrent.futures import ThreadPoolExecutor
 import threading
 
+#this step is time consuming and inefficient, but I didnt think to do it all with the inactivity filter and I havent had enough fucks to give to 
+#edit that program to do what this one does yet and this one formats it in a way the other one needs to run so yeah
+
 # APIKey class to manage key usage and rate limiting
 class APIKey:
     def __init__(self, key, holder_name, sleep_value, call_number=0):
