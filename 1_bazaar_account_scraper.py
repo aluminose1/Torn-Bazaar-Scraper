@@ -4,6 +4,9 @@ import csv
 from concurrent.futures import ThreadPoolExecutor
 import threading
 
+#this step is time consuming and inefficient, but I didnt think to do it all with the inactivity filter and I havent had enough fucks to give to 
+#edit that program to do what this one does yet and this one formats it in a way the other one needs to run so yeah
+
 # APIKey class to manage key usage and rate limiting
 class APIKey:
     def __init__(self, key, holder_name, sleep_value, call_number=0):
@@ -38,22 +41,6 @@ END_ID = 3500000  # Ending at 3.5 million
 # Create a thread lock for synchronized file writing
 file_lock = threading.Lock()
 
-# Function to load already processed user IDs from CSV
-def load_processed_ids(csv_file):
-    """Load already processed user IDs from the CSV file."""
-    processed_ids = set()
-    try:
-        with open(csv_file, 'r') as file:
-            reader = csv.reader(file)
-            next(reader)  # Skip the header
-            for row in reader:
-                if row:
-                    processed_ids.add(int(row[0]))  # Add user ID to set
-    except FileNotFoundError:
-        # If the file doesn't exist, we'll assume no IDs have been processed yet
-        print(f"{csv_file} not found. Starting fresh.")
-    return processed_ids
-
 # Function to fetch publicStatus data using a specific APIKey instance
 def fetch_public_status(user_id, api_key_obj):
     """Fetches public status for a given user ID from the Torn API using the provided APIKey."""
@@ -66,12 +53,9 @@ def fetch_public_status(user_id, api_key_obj):
         return None
 
 # Function to process a range of user IDs for a specific APIKey instance
-def check_public_statuses(start_id, end_id, api_key_obj, writer, processed_ids):
+def check_public_statuses(start_id, end_id, api_key_obj, writer):
     """Checks the public status of users in a given range and writes results immediately to CSV."""
     for user_id in range(start_id, end_id + 1):
-        if user_id in processed_ids:
-            print(f"User {user_id} already processed. Skipping.")
-            continue  # Skip if the user is already processed
         data = fetch_public_status(user_id, api_key_obj)
         if data:
             banned = data.get('banned', False)
@@ -82,16 +66,13 @@ def check_public_statuses(start_id, end_id, api_key_obj, writer, processed_ids):
         time.sleep(api_key_obj.sleep_value)  # Respect rate limit between calls
 
 # Function to distribute work across multiple API keys and save results to CSV
-def process_with_multiple_keys(start_id, end_id, api_keys, processed_ids):
+def process_with_multiple_keys(start_id, end_id, api_keys):
     total_users = end_id - start_id + 1
     users_per_key = total_users // len(api_keys)
 
-    with open('active_users.csv', 'a', newline='') as csvfile:
+    with open('active_users.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
-
-        # If the file was just created, write the header
-        if csvfile.tell() == 0:
-            writer.writerow(['User ID'])  # Only store User ID
+        writer.writerow(['User ID'])  # Only store User ID
 
         # Use ThreadPoolExecutor for parallel processing
         with ThreadPoolExecutor(max_workers=len(api_keys)) as executor:
@@ -104,10 +85,9 @@ def process_with_multiple_keys(start_id, end_id, api_keys, processed_ids):
 
                 # Submit each API key to handle its range
                 futures.append(executor.submit(
-                    check_public_statuses, key_start, key_end, api_key, writer, processed_ids
+                    check_public_statuses, key_start, key_end, api_key, writer
                 ))
 
 # Main execution
 if __name__ == "__main__":
-    processed_ids = load_processed_ids('active_users.csv')
-    process_with_multiple_keys(START_ID, END_ID, api_keys, processed_ids)
+    process_with_multiple_keys(START_ID, END_ID, api_keys)
