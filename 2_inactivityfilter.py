@@ -116,8 +116,6 @@ if __name__ == "__main__":
 
     # Declare the API keys before processing
     api_keys = [
-        APIKey(key="1CGin0RE5GqcHVsq", holder_name="billysnob", calls_per_minute=60),
-        APIKey(key="eTsKvHBUa84tbulK", holder_name="l_valk", calls_per_minute=50),
         # Add more API keys as needed
     ]
 
