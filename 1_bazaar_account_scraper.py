@@ -26,12 +26,6 @@ class APIKey:
 
 # Initialize multiple API keys
 api_keys = [
-    APIKey(key="1CGin0RE5GqcHVsq", holder_name="billysnob", sleep_value=2),
-    APIKey(key="eTsKvHBUa84tbulK", holder_name="l_valk", sleep_value=2),
-    APIKey(key="fY2UwuW4uyscBAKx", holder_name="Sweetanimal",sleep_value=2),
-    APIKey(key="Fu4EYMR57L0tSIMS", holder_name="Chainimal", sleep_value=2),
-    APIKey(key="lQESuISveRhsiDIH", holder_name="An0nymous", sleep_value=2),
-    APIKey(key="DexJF6HJwpDn68xN", holder_name="PierogiPirat", sleep_value=2),
 ]
 
 BASE_URL = 'https://api.torn.com/user/'
