@@ -143,20 +143,7 @@ def main():
 
     # API keys
     api_keys = [
-        APIKey(key="1CGin0RE5GqcHVsq", holder_name="billysnob", calls_per_minute=60),
-        APIKey(key="eTsKvHBUa84tbulK", holder_name="l_valk", calls_per_minute=50),
-        APIKey(key="fY2UwuW4uyscBAKx", holder_name="Sweetanimal", calls_per_minute=50),
-        APIKey(key="Fu4EYMR57L0tSIMS", holder_name="Chainimal", calls_per_minute=50),
-        APIKey(key="lQESuISveRhsiDIH", holder_name="An0nymous", calls_per_minute=50),
-        APIKey(key="DexJF6HJwpDn68xN", holder_name="PierogiPirat", calls_per_minute=50),
-        APIKey(key="AUVOHQHESSuonfjF", holder_name="Bhudda_Ghost", calls_per_minute=50),
-        APIKey(key="Q1hIvWxom8Xa3dff", holder_name="3Ddas", calls_per_minute=50),
-        APIKey(key="izR3QEtOtnU54ww3", holder_name="JessicaAnn", calls_per_minute=50),
-        APIKey(key="6kH8fvS2upXJtMEV", holder_name="RepoMan", calls_per_minute=50),
-        APIKey(key="5zIbX9LSwI1G4uVv", holder_name="Drilla", calls_per_minute=50),
-        APIKey(key="BsqM9RlJSh5NOOH3", holder_name="i9i", calls_per_minute=50),
-        APIKey(key="V7n8LmtqBqD3sO8w", holder_name="fatcow", calls_per_minute=50),
-        APIKey(key="KSt1ZcoXJkMASXZ7", holder_name="KingDarius", calls_per_minute=50),
+       #inpit  keys
     ]
 
     # Open CSV for writing data in real-time
